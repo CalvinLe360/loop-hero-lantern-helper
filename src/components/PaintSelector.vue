@@ -57,7 +57,7 @@ const tiles: [GridCellType, string][] = [
     }
 
     &__image {
-        --icon-size: 48px;
+        --icon-size: 5.5vh;
         width: var(--icon-size);
         height: var(--icon-size);
         border-radius: 15px 15px 0px 0px;

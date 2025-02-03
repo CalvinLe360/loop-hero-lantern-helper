@@ -18,14 +18,10 @@ import PaintSelector from "./components/PaintSelector.vue";
 </template>
 
 <style scoped lang="scss">
-body {
-    background-image: url("backgrounds/stone.jpg");
-}
-
 .app {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 16px;
 
     &__top-bar {
         display: flex;

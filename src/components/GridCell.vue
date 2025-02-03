@@ -34,7 +34,7 @@ function mouseOver(event: MouseEvent) {
 
 <style scoped lang="scss">
 .grid-cell {
-    --grid-cell-size: 64px;
+    --grid-cell-size: 6vh;
     --grid-cell-border-size: 1px;
 
     box-sizing: border-box;
