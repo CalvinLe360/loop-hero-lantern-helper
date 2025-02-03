@@ -28,7 +28,7 @@ onMounted(() => {
 .grid {
     &__map {
         width: max-content;
-        background-image: url("space-background.jpg");
+        background-image: url("backgrounds/space.jpg");
         background-color: rgb(82, 82, 82);
         background-blend-mode: multiply;
     }

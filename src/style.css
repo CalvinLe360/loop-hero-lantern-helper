@@ -28,6 +28,10 @@ body {
     place-items: center;
     min-width: 320px;
     min-height: 100vh;
+
+    background-image: url("backgrounds/stone.jpg");
+    background-blend-mode: multiply;
+    background-color: #a1a1a1;
 }
 
 h1 {
