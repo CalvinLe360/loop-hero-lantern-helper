@@ -12,7 +12,7 @@ const { placingLanterns } = storeToRefs(lanternStore);
     <div class="grid-buttons">
         <button
             :disabled="placingLanterns"
-            @click="() => lanternStore.calculateAndPlaceLanterns()"
+            @click="() => lanternStore.drawLanterns()"
         >
             Place Lanterns
         </button>

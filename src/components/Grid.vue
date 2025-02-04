@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
+import { storeToRefs } from "pinia";
 import GridCellComponent from "./GridCell.vue";
 import { useGridStore } from "@/stores/grid";
-import { storeToRefs } from "pinia";
 
 const gridStore = useGridStore();
 const { grid } = storeToRefs(gridStore);

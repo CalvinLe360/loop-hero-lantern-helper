@@ -1,10 +1,11 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import { GridCellType, type GridCell } from "@/components/types";
-import { useGridStore } from ".";
+import { useErrorStore, useGridStore } from ".";
 
 export const usePaintStore = defineStore('paint', () => {
     const gridStore = useGridStore()
+    const errorStore = useErrorStore()
     const currentTile = ref(GridCellType.Road)
 
     function select(type: GridCellType) {
@@ -12,6 +13,10 @@ export const usePaintStore = defineStore('paint', () => {
     }
 
     function colourIn(cell: GridCell) {
+        if (cell.type != currentTile.value) {
+            errorStore.clear()
+        }
+
         switch (currentTile.value) {
             case GridCellType.Campfire:
                 if (cell.type == GridCellType.Road) {

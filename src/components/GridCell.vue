@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { useCellClicks } from "../stores/cell_clicks";
-import { type GridCellProps } from "./types";
-import { getImage } from "../mechanics";
+import { useCellClicks, useErrorStore } from "@/stores";
+import { getImage } from "@/mechanics";
+import type { GridCellProps } from "./types";
 
 const props = defineProps<GridCellProps>();
 const cellClicks = useCellClicks();
+const errorStore = useErrorStore();
 
 function mouseOver(event: MouseEvent) {
     if ((event.buttons & 1) == 1) {
@@ -26,6 +27,9 @@ function mouseOver(event: MouseEvent) {
     >
         <img
             class="grid-cell__image"
+            :class="{
+                'grid-cell__image--error': errorStore.isError(props.cell),
+            }"
             :src="`tiles/${getImage(props.cell.type)}`"
             @dragstart="(event) => event.preventDefault()"
         />
@@ -47,8 +51,14 @@ function mouseOver(event: MouseEvent) {
     user-select: none; /* Standard syntax */
 
     &__image {
+        box-sizing: border-box;
         width: 100%;
         height: 100%;
+
+        &--error {
+            border: 5px solid red;
+            opacity: 0.5;
+        }
     }
 }
 </style>

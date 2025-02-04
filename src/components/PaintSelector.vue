@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePaintStore } from "../stores/paint";
+import { usePaintStore } from "@/stores";
 import { GridCellType } from "./types";
 
 const paint = usePaintStore();

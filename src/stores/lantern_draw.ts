@@ -12,11 +12,7 @@ export const useLanternDrawStore = defineStore('lanternDraw', () => {
     const messageOutput = useMessageOutputStore();
     const gridStore = useGridStore()
 
-    async function calculateAndPlaceLanterns() {
-        if (placingLanterns.value) return;
-
-        placingLanterns.value = true;
-
+    function calculateOptimalLanternPlacements() {
         let highestResult = calculateLanterns();
         if (highestResult != undefined) {
             for (let _ = 0; _ < Constants.calculationTries; _++) {
@@ -25,7 +21,18 @@ export const useLanternDrawStore = defineStore('lanternDraw', () => {
                     highestResult = result;
                 }
             }
+        }
 
+        return highestResult
+    }
+
+    async function drawLanterns() {
+        if (placingLanterns.value) return;
+
+        placingLanterns.value = true;
+
+        let highestResult = calculateOptimalLanternPlacements();
+        if (highestResult !== null) {
             gridStore.removeProps([GridCellType.Bookery, GridCellType.Lantern])
             messageOutput.setMessage({
                 type: MessageType.Success,
@@ -38,5 +45,5 @@ export const useLanternDrawStore = defineStore('lanternDraw', () => {
         placingLanterns.value = false;
     }
 
-    return { placingLanterns, calculateAndPlaceLanterns }
+    return { placingLanterns, drawLanterns }
 })

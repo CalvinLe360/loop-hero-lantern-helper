@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { MessageType, useMessageOutputStore } from "../stores";
 import { computed } from "vue";
+import { storeToRefs } from "pinia";
+import { MessageType, useMessageOutputStore } from "@/stores";
 
 const { message: output } = storeToRefs(useMessageOutputStore());
 const colour = computed(() => {

@@ -1,5 +1,6 @@
 export * from './calculate_lantern_placements'
 export * from './cell_clicks'
+export * from './error'
 export * from './grid'
 export * from './lantern_draw'
 export * from './message_output'

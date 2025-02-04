@@ -3,10 +3,12 @@ import { Constants, GridCellType } from "@/components";
 import { getAdjacentCells, getSurroundingCells, isRoad } from "@/mechanics";
 import { MessageType, useGridStore, useMessageOutputStore, } from ".";
 import type { GridCell, GridCellLanternInfo } from "@/components";
+import { useErrorStore } from "./error";
 
 export const useLanternCalculationStore = defineStore('lanternCalculation', () => {
-    const messageOutput = useMessageOutputStore()
     const gridStore = useGridStore()
+    const messageOutput = useMessageOutputStore()
+    const errorStore = useErrorStore()
     const { grid } = storeToRefs(gridStore)
 
     function calculateLanterns() {
@@ -80,6 +82,7 @@ export const useLanternCalculationStore = defineStore('lanternCalculation', () =
 
                 if (currentNext) {
                     failed = true
+                    errorStore.set(currentCell)
                     messageOutput.setMessage({
                         type: MessageType.Error,
                         message: `Encountered a branching path at (${currentCell.row}, ${currentCell.col}). There should only be one path.`
@@ -92,6 +95,7 @@ export const useLanternCalculationStore = defineStore('lanternCalculation', () =
                 if (nextCell.type == GridCellType.Campfire) {
                     if (nextCell != path[0]) {
                         failed = true
+                        errorStore.set(nextCell)
                         messageOutput.setMessage({
                             type: MessageType.Error,
                             message: `Another campfire detected at (${nextCell.row},${nextCell.col}). How did you manage that? Only one please.`
@@ -106,6 +110,7 @@ export const useLanternCalculationStore = defineStore('lanternCalculation', () =
 
             if (!currentNext) {
                 failed = true
+                errorStore.set(currentCell)
                 messageOutput.setMessage({
                     type: MessageType.Error,
                     message: `Dead-end detected at (${currentCell.row},${currentCell.col}). Please connect the path back to the campfire.`
@@ -122,6 +127,7 @@ export const useLanternCalculationStore = defineStore('lanternCalculation', () =
             for (const row of grid.value) {
                 for (const cell of row) {
                     if ((cell.type == GridCellType.Road || cell.type == GridCellType.Campfire) && !pathCells.has(cell)) {
+                        errorStore.set(cell)
                         messageOutput.setMessage({
                             type: MessageType.Error,
                             message: `Unconnected road cell detected at (${cell.row},${cell.col}). Remove this or integrate this cell.`
@@ -146,6 +152,7 @@ export const useLanternCalculationStore = defineStore('lanternCalculation', () =
                 }, 0)
 
                 if (availableLanternSpots < Constants.requiredLanterns) {
+                    errorStore.set(cell)
                     messageOutput.setMessage({
                         type: MessageType.Error,
                         message: `Road at (${cell.row}, ${cell.col}) has only ${availableLanternSpots} spot${availableLanternSpots == 1 ? '' : 's'} to place lanterns. This map is not suitable for resource farming.`
