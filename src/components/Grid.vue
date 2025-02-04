@@ -3,12 +3,14 @@ import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import GridCellComponent from "./GridCell.vue";
 import { useGridStore } from "@/stores/grid";
+import { useMessageOutputStore } from "@/stores";
 
 const gridStore = useGridStore();
+const messageStore = useMessageOutputStore();
 const { grid } = storeToRefs(gridStore);
 
 onMounted(() => {
-    gridStore.reset();
+    gridStore.reset(messageStore.defaultMessage());
 });
 </script>
 
@@ -28,7 +30,7 @@ onMounted(() => {
 .grid {
     &__map {
         width: max-content;
-        background-image: url("backgrounds/space.jpg");
+        background-image: url("/backgrounds/space.jpg");
         background-color: rgb(82, 82, 82);
         background-blend-mode: multiply;
     }

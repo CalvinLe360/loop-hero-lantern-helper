@@ -16,5 +16,5 @@ export const useMessageOutputStore = defineStore('messageOutput', () => {
         message.value = newMessage
     }
 
-    return { message, setMessage }
+    return { message, setMessage, defaultMessage }
 })

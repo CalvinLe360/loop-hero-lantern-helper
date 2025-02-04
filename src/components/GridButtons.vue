@@ -1,11 +1,37 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useGridStore, useLanternDrawStore } from "@/stores";
+import {
+    MessageType,
+    useGridStore,
+    useLanternDrawStore,
+    useMessageOutputStore,
+} from "@/stores";
 import { GridCellType } from "./types";
 
-const lanternStore = useLanternDrawStore();
 const gridStore = useGridStore();
+const lanternStore = useLanternDrawStore();
+const messageStore = useMessageOutputStore();
 const { placingLanterns } = storeToRefs(lanternStore);
+
+function clearProps() {
+    gridStore.removeProps([
+        GridCellType.Lantern,
+        GridCellType.Bookery,
+        GridCellType.River,
+        GridCellType.Thicket,
+    ]);
+    messageStore.setMessage({
+        message: "Props cleared!",
+        type: MessageType.Normal,
+    });
+}
+
+function resetGrid() {
+    gridStore.reset({
+        message: "Reset grid back to its default state.",
+        type: MessageType.Normal,
+    });
+}
 </script>
 
 <template>
@@ -16,19 +42,10 @@ const { placingLanterns } = storeToRefs(lanternStore);
         >
             Place Lanterns
         </button>
-        <button
-            :disabled="placingLanterns"
-            @click="
-                () =>
-                    gridStore.removeProps([
-                        GridCellType.Lantern,
-                        GridCellType.Bookery,
-                    ])
-            "
-        >
+        <button :disabled="placingLanterns" @click="clearProps">
             Clear Props
         </button>
-        <button :disabled="placingLanterns" @click="() => gridStore.reset()">
+        <button :disabled="placingLanterns" @click="resetGrid">
             Reset Grid
         </button>
     </div>

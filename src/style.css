@@ -29,7 +29,7 @@ body {
     min-width: 320px;
     min-height: 100vh;
 
-    background-image: url("backgrounds/stone.jpg");
+    background-image: url("/backgrounds/stone.jpg");
     background-blend-mode: multiply;
     background-color: #a1a1a1;
 }
@@ -59,4 +59,9 @@ h1 {
     button {
         background-color: #f9f9f9;
     }
+}
+
+@font-face {
+    font-family: "alagard";
+    src: url("/fonts/alagard.ttf");
 }

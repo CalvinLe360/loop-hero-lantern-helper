@@ -18,6 +18,10 @@ import PaintSelector from "./components/PaintSelector.vue";
 </template>
 
 <style scoped lang="scss">
+h1 {
+    font-family: "alagard";
+}
+
 .app {
     display: flex;
     flex-direction: column;

@@ -3,11 +3,14 @@ import { defineStore } from "pinia";
 import { Layouts } from "@/components/constants";
 import { GridCellType } from '@/components'
 import type { GridLayout, GridCell, } from "@/components/types";
+import { useMessageOutputStore } from "./message_output";
+import type { MessageOutput } from "./types";
 
 export const useGridStore = defineStore('grid', () => {
     const grid = ref<GridLayout>([])
+    const messageStore = useMessageOutputStore()
 
-    function reset() {
+    function reset(message: MessageOutput) {
         const currentLayout = Layouts.Default;
         grid.value = currentLayout.map((row, rowIndex) =>
             row.map<GridCell>((cellType, colIndex) => ({
@@ -16,6 +19,8 @@ export const useGridStore = defineStore('grid', () => {
                 col: colIndex,
             }))
         );
+
+        messageStore.setMessage(message)
     }
 
     function removeProps(props: GridCellType[]) {
