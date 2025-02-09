@@ -10,6 +10,8 @@ export function getImage(type: GridCellType) {
             return "campfire.png";
         case GridCellType.Road:
             return "road.png";
+        case GridCellType.Village:
+            return "village.png"
         case GridCellType.River:
             return 'river.png'
         case GridCellType.Thicket:

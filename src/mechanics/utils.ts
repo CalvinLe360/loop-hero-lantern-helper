@@ -1,7 +1,7 @@
 import { GridCellType, type GridCell, type GridLayout } from "../components/types"
 
 function isRoad(cell: GridCell) {
-    return cell.type == GridCellType.Road || cell.type == GridCellType.Campfire
+    return cell.type == GridCellType.Road || cell.type == GridCellType.Campfire || cell.type == GridCellType.Village
 }
 
 function validatePosition(grid: GridLayout, row: number, col: number) {

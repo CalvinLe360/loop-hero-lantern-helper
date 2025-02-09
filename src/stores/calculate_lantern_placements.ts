@@ -4,12 +4,14 @@ import { getAdjacentCells, getSurroundingCells, isRoad } from "@/mechanics";
 import { MessageType, useGridStore, useMessageOutputStore, } from ".";
 import type { GridCell, GridCellLanternInfo } from "@/components";
 import { useErrorStore } from "./error";
+import { useSettingsStore } from "./settings";
 
 export const useLanternCalculationStore = defineStore('lanternCalculation', () => {
     const gridStore = useGridStore()
     const messageOutput = useMessageOutputStore()
     const errorStore = useErrorStore()
     const { grid } = storeToRefs(gridStore)
+    const { requiredLanternsPerRoad, replaceUnsuitableRoadsWithVillages } = storeToRefs(useSettingsStore())
 
     function calculateLanterns() {
         if (!validateGridPath()) {
@@ -21,9 +23,11 @@ export const useLanternCalculationStore = defineStore('lanternCalculation', () =
             return null
         }
 
+        errorStore.clear()
+
         const lanternInfoGrid: GridCellLanternInfo[][] = grid.value.map(row => row.map<GridCellLanternInfo>(cell => ({
             ...cell,
-            neededLanterns: cell.type == GridCellType.Road ? Constants.requiredLanterns : 0,
+            neededLanterns: cell.type == GridCellType.Road ? requiredLanternsPerRoad.value : 0,
             lanternImportance: sidepathCells.has(cell) ? initialiseLanternImportance(cell) : 0
         })))
 
@@ -151,13 +155,18 @@ export const useLanternCalculationStore = defineStore('lanternCalculation', () =
                     return acc + (validLanternSpots.has(cell) ? 1 : 0)
                 }, 0)
 
-                if (availableLanternSpots < Constants.requiredLanterns) {
-                    errorStore.set(cell)
-                    messageOutput.setMessage({
-                        type: MessageType.Error,
-                        message: `Road at (${cell.row}, ${cell.col}) has only ${availableLanternSpots} spot${availableLanternSpots == 1 ? '' : 's'} to place lanterns. This map is not suitable for resource farming.`
-                    })
-                    return false
+                if (availableLanternSpots < requiredLanternsPerRoad.value) {
+                    if (replaceUnsuitableRoadsWithVillages.value) {
+                        cell.type = GridCellType.Village
+                    }
+                    else {
+                        errorStore.set(cell)
+                        messageOutput.setMessage({
+                            type: MessageType.Error,
+                            message: `Road at (${cell.row}, ${cell.col}) has only ${availableLanternSpots} spot${availableLanternSpots == 1 ? '' : 's'} to place lanterns. This map is not suitable for resource farming.`
+                        })
+                        return false
+                    }
                 }
             }
         }

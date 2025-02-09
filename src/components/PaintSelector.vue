@@ -6,6 +6,7 @@ const paint = usePaintStore();
 
 const tiles: [GridCellType, string][] = [
     [GridCellType.Road, "road.png"],
+    [GridCellType.Village, "village.png"],
     [GridCellType.Campfire, "campfire.png"],
     [GridCellType.Lantern, "lantern.png"],
     [GridCellType.Bookery, "bookery.png"],

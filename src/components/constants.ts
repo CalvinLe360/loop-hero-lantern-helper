@@ -1,7 +1,6 @@
 import { GridCellType } from "./types";
 
 const Constants = {
-    requiredLanterns: 4,
     placementDelayMs: 50,
     calculationTries: 5
 }

@@ -3,6 +3,7 @@ import Grid from "./components/Grid.vue";
 import GridButtons from "./components/GridButtons.vue";
 import MessageBox from "./components/MessageBox.vue";
 import PaintSelector from "./components/PaintSelector.vue";
+import Settings from "./components/Settings.vue";
 </script>
 
 <template>
@@ -13,7 +14,10 @@ import PaintSelector from "./components/PaintSelector.vue";
             <MessageBox />
         </div>
         <Grid />
-        <GridButtons />
+        <div class="app__bottom-bar">
+            <GridButtons />
+            <Settings />
+        </div>
     </div>
 </template>
 
@@ -31,6 +35,12 @@ h1 {
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
+    }
+
+    &__bottom-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
     }
 }
 </style>

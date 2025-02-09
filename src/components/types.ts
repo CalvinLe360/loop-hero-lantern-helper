@@ -1,11 +1,12 @@
 export enum GridCellType {
     None,
     Campfire,
+    Village,
     Road,
     Lantern,
     Bookery,
     Thicket,
-    River
+    River,
 }
 
 export type GridCell = {
