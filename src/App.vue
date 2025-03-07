@@ -4,6 +4,7 @@ import GridButtons from "./components/GridButtons.vue";
 import MessageBox from "./components/MessageBox.vue";
 import PaintSelector from "./components/PaintSelector.vue";
 import Settings from "./components/Settings.vue";
+import ThicketScore from "./components/ThicketScore.vue";
 </script>
 
 <template>
@@ -17,6 +18,7 @@ import Settings from "./components/Settings.vue";
         <div class="app__bottom-bar">
             <GridButtons />
             <Settings />
+            <ThicketScore />
         </div>
     </div>
 </template>

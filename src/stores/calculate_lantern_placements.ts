@@ -1,7 +1,7 @@
 import { defineStore, storeToRefs } from "pinia";
-import { Constants, GridCellType } from "@/components";
+import { GridCellType } from "@/components";
 import { getAdjacentCells, getSurroundingCells, isRoad } from "@/mechanics";
-import { MessageType, useGridStore, useMessageOutputStore, } from ".";
+import { MessageType, useGridStore, useMessageOutputStore, usePaintStore, } from ".";
 import type { GridCell, GridCellLanternInfo } from "@/components";
 import { useErrorStore } from "./error";
 import { useSettingsStore } from "./settings";
@@ -10,8 +10,9 @@ export const useLanternCalculationStore = defineStore('lanternCalculation', () =
     const gridStore = useGridStore()
     const messageOutput = useMessageOutputStore()
     const errorStore = useErrorStore()
+    const paintStore = usePaintStore()
     const { grid } = storeToRefs(gridStore)
-    const { requiredLanternsPerRoad, replaceUnsuitableRoadsWithVillages } = storeToRefs(useSettingsStore())
+    const { requiredLanternsPerRoad, replaceUnsuitableRoadsWithVillages, overrideSideroadSpots } = storeToRefs(useSettingsStore())
 
     function calculateLanterns() {
         if (!validateGridPath()) {
@@ -157,7 +158,7 @@ export const useLanternCalculationStore = defineStore('lanternCalculation', () =
 
                 if (availableLanternSpots < requiredLanternsPerRoad.value) {
                     if (replaceUnsuitableRoadsWithVillages.value) {
-                        cell.type = GridCellType.Village
+                        paintStore.paint(cell, GridCellType.Village)
                     }
                     else {
                         errorStore.set(cell)
@@ -180,7 +181,11 @@ export const useLanternCalculationStore = defineStore('lanternCalculation', () =
         for (const row of grid.value) {
             for (const cell of row) {
                 if (isRoad(cell)) {
-                    getAdjacentCells(grid.value, cell).forEach(cell => { if (!isRoad(cell)) { cells.add(cell) } })
+                    getAdjacentCells(grid.value, cell).forEach(cell => {
+                        if (!isRoad(cell) && (overrideSideroadSpots.value || cell.type == GridCellType.None)) {
+                            cells.add(cell)
+                        }
+                    })
                 }
             }
         }

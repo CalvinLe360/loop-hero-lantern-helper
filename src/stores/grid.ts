@@ -52,5 +52,13 @@ export const useGridStore = defineStore('grid', () => {
         return undefined
     }
 
-    return { grid, reset, removeProps, findCampfire }
+    function getCellAt(row: number, col: number) {
+        if (row < 0 || row >= grid.value.length || col < 0 || col >= (grid.value[0]?.length ?? -1)) {
+            return undefined
+        }
+
+        return grid.value[row][col]
+    }
+
+    return { grid, reset, removeProps, findCampfire, getCellAt }
 })

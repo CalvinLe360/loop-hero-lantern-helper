@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import {
+    Event,
     MessageType,
+    useEventStore,
     useGridStore,
     useLanternDrawStore,
     useMessageOutputStore,
@@ -11,6 +13,7 @@ import { GridCellType } from "./types";
 const gridStore = useGridStore();
 const lanternStore = useLanternDrawStore();
 const messageStore = useMessageOutputStore();
+const eventStore = useEventStore();
 const { placingLanterns } = storeToRefs(lanternStore);
 
 function clearProps() {
@@ -20,6 +23,7 @@ function clearProps() {
         GridCellType.River,
         GridCellType.Thicket,
     ]);
+    eventStore.trigger(Event.ClearProps, {});
     messageStore.setMessage({
         message: "Props cleared!",
         type: MessageType.Normal,
@@ -27,6 +31,7 @@ function clearProps() {
 }
 
 function resetGrid() {
+    eventStore.trigger(Event.Reset, {});
     gridStore.reset({
         message: "Reset grid back to its default state.",
         type: MessageType.Normal,
@@ -57,9 +62,5 @@ function resetGrid() {
     flex-direction: row;
     justify-content: center;
     gap: 24px;
-
-    & button {
-        height: 32px;
-    }
 }
 </style>

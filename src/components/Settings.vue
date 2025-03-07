@@ -4,8 +4,11 @@ import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useSettingsStore } from "@/stores";
 
-const { requiredLanternsPerRoad, replaceUnsuitableRoadsWithVillages } =
-    storeToRefs(useSettingsStore());
+const {
+    requiredLanternsPerRoad,
+    replaceUnsuitableRoadsWithVillages,
+    overrideSideroadSpots,
+} = storeToRefs(useSettingsStore());
 
 const isModalVisible = ref(false);
 </script>
@@ -26,6 +29,10 @@ const isModalVisible = ref(false);
                     type="checkbox"
                     v-model="replaceUnsuitableRoadsWithVillages"
                 />
+            </div>
+            <div class="settings__value">
+                <label>Override side road spots on calculation</label>
+                <input type="checkbox" v-model="overrideSideroadSpots" />
             </div>
         </template>
 
