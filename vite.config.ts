@@ -9,6 +9,7 @@ const root = path.resolve(__dirname, "src");
 // https://vite.dev/config/
 export default defineConfig({
     plugins: [vue()],
+    base: "/loop-hero-lantern-helper/",
     resolve: {
         alias: {
             '@': root
